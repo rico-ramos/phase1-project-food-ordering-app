@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - QuickBite</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#FFFAF0] min-h-screen font-sans text-gray-800">
+
+  <div class="max-w-2xl mx-auto p-4">
+    <!-- Header -->
+    <h1 class="text-2xl font-bold mb-6 text-center">Checkout</h1>
+
+    <!-- Order Summary -->
+    <section class="bg-white rounded-xl shadow-md p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Your Order</h2>
+
+      <!-- Replace this with injected cart summary if needed -->
+      <ul class="space-y-3 text-sm">
+        <li class="flex justify-between items-center">
+          <div>
+            <p class="font-medium">Mozzarella Sticks</p>
+            <p class="text-gray-500 text-xs">Qty: 2</p>
+          </div>
+          <p>$11.98</p>
+        </li>
+        <li class="flex justify-between items-center">
+          <div>
+            <p class="font-medium">Chocolate Cake</p>
+            <p class="text-gray-500 text-xs">Qty: 1</p>
+          </div>
+          <p>$6.00</p>
+        </li>
+        <li class="border-t pt-3 flex justify-between font-semibold">
+          <span>Subtotal</span>
+          <span>$17.98</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Customer Info -->
+    <section class="bg-white rounded-xl shadow-md p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Customer Info</h2>
+
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium">Full Name</label>
+          <input type="text" placeholder="John Doe" required
+                 class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"/>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Email Address</label>
+          <input type="email" placeholder="you@example.com" required
+                 class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"/>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Order Type</label>
+          <select class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+            <option>Pickup</option>
+            <option>Delivery</option>
+          </select>
+        </div>
+      </form>
+    </section>
+
+    <!-- Payment Info (Mock UI) -->
+    <section class="bg-white rounded-xl shadow-md p-4 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Payment</h2>
+
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium">Card Number</label>
+          <input type="text" placeholder="1234 5678 9012 3456"
+                 class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"/>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <label class="block text-sm font-medium">Exp Date</label>
+            <input type="text" placeholder="MM/YY"
+                   class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"/>
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-medium">CVV</label>
+            <input type="text" placeholder="123"
+                   class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"/>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button onclick="submitOrder()"
+              class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-full transition">
+        Submit Order
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function submitOrder() {
+      alert("🎉 Your order has been placed!");
+      // Future: redirect to thank-you.html or reset form
+    }
+  </script>
+
+</body>
+</html>
