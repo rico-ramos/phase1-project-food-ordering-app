@@ -57,3 +57,12 @@
         opacity: 0;
     }
 }
+
+.collapsible {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  max-height: 0;
+}
+.collapsible.open {
+  max-height: 1000px; /* Enough to show full content */
+}

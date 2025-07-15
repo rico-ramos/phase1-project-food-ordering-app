@@ -184,7 +184,7 @@
 
             <!-- Back Button -->
             <div class="text-center mt-4">
-                <button onclick="returnToMenu()" class="text-sm text-red-500 hover:underline font-medium">
+                <button onclick="returnToMenuFromCheckout()" class="text-sm text-red-500 hover:underline font-medium">
                     ← Back to Menu
                 </button>
             </div>
@@ -293,7 +293,11 @@
         
         
             function toggleCategory(id) {
-                document.getElementById(id).classList.toggle('hidden');
+                const section = document.getElementById(id);
+                const arrow = document.getElementById(`${id}-arrow`);
+                
+                section.classList.toggle('open');
+                arrow.classList.toggle('rotate-180');
             }
 
 
@@ -309,7 +313,7 @@
                 document.getElementById('modalDesc').textContent = item.desc;
                 document.getElementById('modalPrice').textContent = `$${item.price.toFixed(2)}`;
                 document.getElementById('modalImg').src = item.img;
-                document.getElementById('modalQty').textContent = cart[id]?.qty || 1;
+                document.getElementById('modalQty').textContent = cart[id]?.qty || 0;
 
                 const overlay = document.getElementById('modalOverlay');
                 const content = document.getElementById('modalContent');
@@ -376,7 +380,7 @@
                 document.getElementById('checkoutSubtotal').textContent = `$${subtotal.toFixed(2)}`;
             }
 
-            function returnToMenu() {
+            function returnToMenuFromCheckout() {
                 document.getElementById('checkoutView').classList.add('hidden');
                 document.getElementById('categories').classList.remove('hidden');
                 document.getElementById('cartTab').classList.remove('hidden');
@@ -406,7 +410,8 @@
                     id: orderNum,
                     items,
                     subtotal,
-                    timestamp
+                    timestamp,
+                    restaurant: currentRestaurant?.name || 'Unknown'
                 });
 
                 console.log('Order saved:', yourOrders);
@@ -425,10 +430,7 @@
 
                 // Reset cart/menu visuals/states
                 clearCart();
-                Object.keys(cart).forEach(id => {
-                    document.getElementById(`badge-${id}`)?.classList.add('hidden');
-                    document.getElementById(`img-${id}`)?.classList.remove('border-red-500');
-                });
+               
                 // Reset checkout form fields
                 document.getElementById('checkoutForm').reset();
 
@@ -459,7 +461,9 @@
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('checkoutForm').addEventListener('submit', function (e) {
                     e.preventDefault();
+                    document.getElementById('checkoutView').classList.add('hidden');
                     showThankYouScreen();
+                    
                 });
                 showRestaurantSelector();
             });
@@ -488,6 +492,7 @@
                     card.className = 'bg-red-50 p-3 rounded-md shadow cursor-pointer hover:bg-red-100 transition';
                     card.innerHTML = `
                 <div class="font-semibold">Order #${order.id}</div>
+                <h3 class="font-semibold text-sm">${order.restaurant}</h3>
                 <div class="text-sm text-gray-600">${order.timestamp} • Total: $${order.subtotal.toFixed(2)}</div>
                 `;
                     card.onclick = () => showOrderDetails(order.id);
@@ -538,7 +543,7 @@
                 <span>Subtotal:</span>
                 <span>$${order.subtotal.toFixed(2)}</span>
                 </div>
-            `;
+            `;updateOrder()
 
                 document.getElementById('orderStatus').textContent = `Status: ${order.status || 'Order Received'}`;
 
@@ -560,6 +565,7 @@
                 const drawer = document.getElementById('orderDetails');
 
                 drawer.classList.add('translate-y-full');
+                  drawer.classList.remove('translate-y-0');
                 overlay.classList.add('hidden');
             }
 

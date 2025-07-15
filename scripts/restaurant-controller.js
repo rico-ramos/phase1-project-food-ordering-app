@@ -36,6 +36,7 @@ function loadMenuForRestaurant(id) {
 
 let currentMenu = null;
 let currentRestaurant = null;
+let allCategories = [];
 
 function loadRestaurantMenu(restaurantId) {
             const r = restaurants.find(r => r.id === restaurantId);
@@ -46,7 +47,7 @@ function loadRestaurantMenu(restaurantId) {
 
             document.getElementById('categories').innerHTML = '';
 
-            const allCategories = [
+            allCategories = [
                 { id: 'starters', label: 'Starters', items: currentMenu.starters },
                 { id: 'entrees', label: 'Entrees', items: currentMenu.entrees },
                 { id: 'desserts', label: 'Desserts', items: currentMenu.desserts },
@@ -60,9 +61,9 @@ function loadRestaurantMenu(restaurantId) {
         <div class="bg-red-50 rounded-md p-3 hover:bg-red-100 transition cursor-pointer flex justify-between items-center"
              onclick="toggleCategory('${category.id}')">
           <h3 class="text-base md:text-lg font-semibold">${category.label}</h3>
-          <span class="text-xl">⌄</span>
+          <span id="${category.id}-arrow" class="text-xl transform transition-transform duration-300">^</span>
         </div>
-        <div id="${category.id}" class="hidden mt-2">
+        <div id="${category.id}" class="collapsible mt-2">
           <div class="flex space-x-4 overflow-x-auto pb-2" id="${category.id}-items"></div>
         </div>
       `;
