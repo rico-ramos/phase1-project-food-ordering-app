@@ -9,42 +9,78 @@
 
     <link rel="stylesheet" href="css/main.css">
 
+
 </head>
 
 <body class="bg-[#FFFAF0] min-h-screen font-sans">
+    <script> function returnToRestaurantSelector() {
+            window.location.href = './place-order.html'; // advance to place-order page
+        }</script>
+          <!-- <script src="./scripts/nav-archive.js"></script> -->
+
+
     <!-- Restaurant Selector -->
     <div id="restaurantSelector" class="max-w-4xl mx-auto p-4 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
         <!-- JS will inject cards here -->
     </div>
 
     <div id="mainApp" class="hidden">
-        <div class="max-w-5xl mx-auto p-4">
+
+        <!-- Admin Header -->
+        <div id="adminHeader" class="text-center text-2xl md:text-3xl font-bold text-red-600 leading-snug">
+            <h1 class="text-xl md:text-2xl font-bold text-red-600">
+                Quick<span class="text-gray-800">Bite</span>
+                <span class="block text-sm md:inline md:ml-2 font-medium text-gray-700">
+                    Admin Panel
+                </span>
+            </h1>
+            <script src="scripts/goto-place-order.js"></script>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-4 pt-4">
             <!-- Header -->
-            <div class="flex justify-between items-center mb-6">
-                <!-- Hamburger Icon (refined X alignment) -->
-                <button id="hamburgerBtn" onclick="toggleNavDropdown()" class="relative w-6 h-6 focus:outline-none">
-                    <span
-                        class="line top absolute bg-gray-800 h-0.5 w-6 left-0 top-[6px] transition-all duration-300"></span>
-                    <span
-                        class="line middle absolute bg-gray-800 h-0.5 w-6 left-0 top-[12px] transition-all duration-300"></span>
-                    <span
-                        class="line bottom absolute bg-gray-800 h-0.5 w-6 left-0 top-[18px] transition-all duration-300"></span>
-                </button>
+            <div class="flex items-center justify-between">
 
+                <!-- Left side: Hamburger + Back -->
+                <div class="flex items-center space-x-4">
+                    <button id="hamburgerBtn" onclick="toggleNavDropdown()" class="relative w-6 h-6 focus:outline-none">
+                        <span
+                            class="line top absolute bg-gray-800 h-0.5 w-6 left-0 top-[6px] transition-all duration-300"></span>
+                        <span
+                            class="line middle absolute bg-gray-800 h-0.5 w-6 left-0 top-[12px] transition-all duration-300"></span>
+                        <span
+                            class="line bottom absolute bg-gray-800 h-0.5 w-6 left-0 top-[18px] transition-all duration-300"></span>
+                    </button>
 
-                <h2 class="text-lg md:text-xl font-semibold text-center flex-1 -ml-6">
-                    Hi <span id="firstName">John</span>,<br class="block sm:hidden" />
-                    What can we get for you today?
-                </h2>
-                <button>
-                    <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M5.121 17.804A10.97 10.97 0 0112 15c2.042 0 3.937.612 5.51 1.651M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </button>
+                    <button onclick="returnToRestaurantSelector()" class="text-red-500 hover:text-red-700 text-md">
+                        ← Back
+                    </button>
+                </div>
+
+                <!-- Center Title -->
+                <h1 id="userHeader" class="text-center text-2xl md:text-3xl font-bold text-red-600 leading-snug">
+                    Quick<span class="text-gray-800">Bite</span>
+                    <span class="block text-sm md:inline md:ml-2 font-medium text-gray-700">
+                        Ordering from:
+                        <span id="currentRestaurantName" class="font-semibold">[Restaurant Name]</span>
+                    </span>
+                </h1>
+
+                <!-- Right side: Profile -->
+                <div class="flex-shrink-0">
+                    <button onclick="toggleProfilePanel()">
+                        <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M5.121 17.804A10.97 10.97 0 0112 15c2.042 0 3.937.612 5.51 1.651M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </button>
+
+                </div>
             </div>
         </div>
+
+
 
         <!-- Categories -->
         <div id="categories" class="space-y-6">
@@ -52,7 +88,7 @@
             <!-- Dynamically built with JS -->
         </div>
 
-        <!-- Hamburger Slide Out Menu -->
+        <!-- Hamburger Slide Out Menu // to be added back soon -->
         <!-- <div id="navOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40" onclick="closeNavMenu()"></div>
 
         <aside id="navMenu"
@@ -272,8 +308,54 @@
             </div>
         </div>
 
+        <!-- Admin Editing Modal -->
+        <div id="adminEditModal"
+            class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+            <div class="bg-white p-4 rounded-lg w-full max-w-md mx-auto shadow-lg">
+                <h2 class="text-lg font-bold mb-4">Edit Menu Item</h2>
+
+                <label for="editName" class="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
+                <input id="editName" class="w-full mb-4 p-2 border rounded" placeholder="e.g. Chicken Alfredo" />
+
+                <label for="editDesc" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea id="editDesc" class="w-full mb-4 p-2 border rounded"
+                    placeholder="Short item description..."></textarea>
+
+                <label for="editPrice" class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
+                <input id="editPrice" type="number" step="0.01" class="w-full mb-4 p-2 border rounded"
+                    placeholder="e.g. 12.99" />
+
+                <label for="editImg" class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                <input id="editImg" type="text" class="w-full mb-6 p-2 border rounded"
+                    placeholder="https://example.com/image.jpg" />
+
+                <div class="flex justify-end space-x-2">
+                    <button onclick="hideEditModal()" class="text-gray-500 hover:text-gray-700">Cancel</button>
+                    <button onclick="saveMenuChanges()"
+                        class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Save</button>
+                </div>
+            </div>
+        </div>
 
     </div>
+
+    <!-- Slide-out Panel -->
+    <div id="profilePanel"
+        class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform translate-x-full transition-transform duration-300">
+        <div class="p-4 border-b">
+            <h3 class="text-lg font-semibold">Profile</h3>
+        </div>
+        <div class="p-4 space-y-4">
+            <button onclick="openPreferences()"
+                class="w-full text-left text-gray-700 hover:text-red-500">Preferences</button>
+            <button onclick="logoutUser()" class="w-full text-left text-gray-700 hover:text-red-500">Logout</button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="profileOverlay" class="fixed inset-0 bg-black bg-opacity-30 hidden z-40" onclick="closeProfilePanel()">
+    </div>
+
 
 
 
@@ -283,90 +365,93 @@
     <script src="scripts/restaurantData.js"></script>
     <script src="scripts/restaurant-controller.js"></script>
     <script src="scripts/cart-management.js"></script>
+    <script src="./scripts/profile-logout.js"></script>
+  
+
 
 
     <script>
         const yourOrders = [];
-
-
-        
-        
-        
-            function toggleCategory(id) {
-                const section = document.getElementById(id);
-                const arrow = document.getElementById(`${id}-arrow`);
-                
-                section.classList.toggle('open');
-                arrow.classList.toggle('rotate-180');
-            }
+        const userRole = localStorage.getItem("role");
+        const isAdmin = userRole === "admin";
 
 
 
-            function openModal(id) {
-                const item = [
-                        ...currentMenu.starters, 
-                        ...currentMenu.entrees, 
-                        ...currentMenu.desserts, 
-                        ...currentMenu.drinks
-                    ].find(i => i.id === id);
-                document.getElementById('modalTitle').textContent = item.name;
-                document.getElementById('modalDesc').textContent = item.desc;
-                document.getElementById('modalPrice').textContent = `$${item.price.toFixed(2)}`;
-                document.getElementById('modalImg').src = item.img;
-                document.getElementById('modalQty').textContent = cart[id]?.qty || 0;
+        function toggleCategory(id) {
+            const section = document.getElementById(id);
+            const arrow = document.getElementById(`${id}-arrow`);
 
-                const overlay = document.getElementById('modalOverlay');
-                const content = document.getElementById('modalContent');
-
-                overlay.classList.remove('hidden');
-                overlay.classList.add('flex', 'overlay-fade-in');
-                content.classList.remove('fade-out');
-                content.classList.add('fade-in');
-
-                overlay.setAttribute('data-current-id', id);
-            }
-
-            function hideModal() {
-                const overlay = document.getElementById('modalOverlay');
-                const content = document.getElementById('modalContent');
-
-                content.classList.remove('fade-in');
-                content.classList.add('fade-out');
-                overlay.classList.remove('overlay-fade-in');
-                overlay.classList.add('overlay-fade-out');
-
-                setTimeout(() => {
-                    overlay.classList.add('hidden');
-                    overlay.classList.remove('flex', 'overlay-fade-out');
-                }, 200);
-            }
+            section.classList.toggle('open');
+            arrow.classList.toggle('rotate-180');
+        }
 
 
 
-            function goToCheckout() {
-                // Hide cart drawer
-                closeCartDrawer();
+        function openModal(id) {
+            const item = [
+                ...currentMenu.starters,
+                ...currentMenu.entrees,
+                ...currentMenu.desserts,
+                ...currentMenu.drinks
+            ].find(i => i.id === id);
+            document.getElementById('modalTitle').textContent = item.name;
+            document.getElementById('modalDesc').textContent = item.desc;
+            document.getElementById('modalPrice').textContent = `$${item.price.toFixed(2)}`;
+            document.getElementById('modalImg').src = item.img;
+            document.getElementById('modalQty').textContent = cart[id]?.qty || 0;
 
-                // Hide menu view
-                document.getElementById('categories').classList.add('hidden');
-                document.getElementById('cartTab').classList.add('hidden');
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
 
-                // Show checkout view
-                document.getElementById('checkoutView').classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex', 'overlay-fade-in');
+            content.classList.remove('fade-out');
+            content.classList.add('fade-in');
 
-                // Build checkout cart view
-                const checkoutCart = document.getElementById('checkoutCart');
-                checkoutCart.innerHTML = '';
+            overlay.setAttribute('data-current-id', id);
+        }
 
-                let subtotal = 0;
+        function hideModal() {
+            const overlay = document.getElementById('modalOverlay');
+            const content = document.getElementById('modalContent');
 
-                Object.values(cart).forEach(item => {
-                    const line = document.createElement('div');
-                    const total = item.qty * item.price;
-                    subtotal += total;
+            content.classList.remove('fade-in');
+            content.classList.add('fade-out');
+            overlay.classList.remove('overlay-fade-in');
+            overlay.classList.add('overlay-fade-out');
 
-                    line.className = 'flex justify-between items-center';
-                    line.innerHTML = `
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex', 'overlay-fade-out');
+            }, 200);
+        }
+
+
+
+        function goToCheckout() {
+            // Hide cart drawer
+            closeCartDrawer();
+
+            // Hide menu view
+            document.getElementById('categories').classList.add('hidden');
+            document.getElementById('cartTab').classList.add('hidden');
+
+            // Show checkout view
+            document.getElementById('checkoutView').classList.remove('hidden');
+
+            // Build checkout cart view
+            const checkoutCart = document.getElementById('checkoutCart');
+            checkoutCart.innerHTML = '';
+
+            let subtotal = 0;
+
+            Object.values(cart).forEach(item => {
+                const line = document.createElement('div');
+                const total = item.qty * item.price;
+                subtotal += total;
+
+                line.className = 'flex justify-between items-center';
+                line.innerHTML = `
                 <div>
                     <div class="font-medium">${item.name}</div>
                     <div class="text-xs text-gray-500">Qty: ${item.qty}</div>
@@ -374,161 +459,163 @@
                 <div class="text-right font-semibold">$${total.toFixed(2)}</div>
                 `;
 
-                    checkoutCart.appendChild(line);
-                });
+                checkoutCart.appendChild(line);
+            });
 
-                document.getElementById('checkoutSubtotal').textContent = `$${subtotal.toFixed(2)}`;
-            }
+            document.getElementById('checkoutSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+        }
 
-            function returnToMenuFromCheckout() {
-                document.getElementById('checkoutView').classList.add('hidden');
-                document.getElementById('categories').classList.remove('hidden');
-                document.getElementById('cartTab').classList.remove('hidden');
-            }
-
-
-            document.getElementById('modalOverlay').addEventListener('click', hideModal);
-
-            function showThankYouScreen() {
-                // Generate order number
-                const orderNum = 'QB-' + Math.floor(1000 + Math.random() * 9000);
-                document.getElementById('orderNumber').textContent = `#${orderNum}`;
-
-                // Build order summary
-                const items = Object.values(cart).map(item => ({
-                    name: item.name,
-                    qty: item.qty,
-                    price: item.price
-                }));
-
-                const subtotal = items.reduce((sum, item) => sum + item.qty * item.price, 0);
-
-                const timestamp = new Date().toLocaleString();
-
-                // Save order to history
-                yourOrders.push({
-                    id: orderNum,
-                    items,
-                    subtotal,
-                    timestamp,
-                    restaurant: currentRestaurant?.name || 'Unknown'
-                });
-
-                console.log('Order saved:', yourOrders);
+        function returnToMenuFromCheckout() {
+            document.getElementById('checkoutView').classList.add('hidden');
+            document.getElementById('categories').classList.remove('hidden');
+            document.getElementById('cartTab').classList.remove('hidden');
+        }
 
 
+        document.getElementById('modalOverlay').addEventListener('click', hideModal);
 
-                // Generate static QR (encoded order number or anything else)
-                const qr = document.getElementById('orderQr');
-                qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(orderNum)}`;
+        function showThankYouScreen() {
+            // Generate order number
+            const orderNum = 'QB-' + Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('orderNumber').textContent = `#${orderNum}`;
+
+            // Build order summary
+            const items = Object.values(cart).map(item => ({
+                name: item.name,
+                qty: item.qty,
+                price: item.price
+            }));
+
+            const subtotal = items.reduce((sum, item) => sum + item.qty * item.price, 0);
+
+            const timestamp = new Date().toLocaleString();
+
+            // Save order to history
+            yourOrders.push({
+                id: orderNum,
+                items,
+                subtotal,
+                timestamp,
+                restaurant: currentRestaurant?.name || 'Unknown'
+            });
+
+            console.log('Order saved:', yourOrders);
 
 
-                // Show thank-you screen
-                document.getElementById('thankYouScreen').classList.remove('hidden');
 
-                // TODO: Save to future "Your Orders" area (via in-memory array or localStorage)
+            // Generate static QR (encoded order number or anything else)
+            const qr = document.getElementById('orderQr');
+            qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(orderNum)}`;
 
-                // Reset cart/menu visuals/states
-                clearCart();
-               
-                // Reset checkout form fields
-                document.getElementById('checkoutForm').reset();
 
-                // Collapse all open category sections
-                allCategories.forEach(category => {
-                    document.getElementById(category.id)?.classList.add('hidden');
-                });
+            // Show thank-you screen
+            document.getElementById('thankYouScreen').classList.remove('hidden');
 
-                // Hide checkout view
-                document.getElementById('checkoutView').classList.add('hidden');
+            // TODO: Save to future "Your Orders" area (via in-memory array or localStorage)
 
-            }
+            // Reset cart/menu visuals/states
+            clearCart();
 
-            function resetToHome() {
-                document.getElementById('thankYouScreen').classList.add('hidden');
-                document.getElementById('categories').classList.remove('hidden');
-                document.getElementById('cartTab').classList.remove('hidden');
-            }
+            // Reset checkout form fields
+            document.getElementById('checkoutForm').reset();
+
+            // Collapse all open category sections
+            allCategories.forEach(category => {
+                document.getElementById(category.id)?.classList.add('hidden');
+            });
+
+            // Hide checkout view
+            document.getElementById('checkoutView').classList.add('hidden');
+
+        }
+
+        function resetToHome() {
+            document.getElementById('thankYouScreen').classList.add('hidden');
+
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('restaurantSelector').classList.remove('hidden')
+            showRestaurantSelector();
+
+        }
 
     </script>
 
 
 
-
     <script>
 
-            //Event listener for Thank You screen & Restaurant Selector
-            document.addEventListener('DOMContentLoaded', function () {
-                document.getElementById('checkoutForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    document.getElementById('checkoutView').classList.add('hidden');
-                    showThankYouScreen();
-                    
-                });
-                showRestaurantSelector();
+        //Event listener for Thank You screen & Restaurant Selector
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                document.getElementById('checkoutView').classList.add('hidden');
+                showThankYouScreen();
+
             });
+            showRestaurantSelector();
+        });
 
 
 
-            function showOrdersView() {
-                const overlay = document.getElementById('ordersViewOverlay');
-                const view = document.getElementById('ordersView');
-                const list = document.getElementById('ordersList');
+        function showOrdersView() {
+            const overlay = document.getElementById('ordersViewOverlay');
+            const view = document.getElementById('ordersView');
+            const list = document.getElementById('ordersList');
 
-                overlay.classList.remove('hidden');
-                view.classList.remove('translate-y-full');
-                view.classList.add('translate-y-0');
+            overlay.classList.remove('hidden');
+            view.classList.remove('translate-y-full');
+            view.classList.add('translate-y-0');
 
-                // Clear previous
-                list.innerHTML = '';
+            // Clear previous
+            list.innerHTML = '';
 
-                if (yourOrders.length === 0) {
-                    list.innerHTML = `<p class="text-center text-gray-500">You have no past orders.</p>`;
-                    return;
-                }
+            if (yourOrders.length === 0) {
+                list.innerHTML = `<p class="text-center text-gray-500">You have no past orders.</p>`;
+                return;
+            }
 
-                yourOrders.forEach(order => {
-                    const card = document.createElement('div');
-                    card.className = 'bg-red-50 p-3 rounded-md shadow cursor-pointer hover:bg-red-100 transition';
-                    card.innerHTML = `
+            yourOrders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'bg-red-50 p-3 rounded-md shadow cursor-pointer hover:bg-red-100 transition';
+                card.innerHTML = `
                 <div class="font-semibold">Order #${order.id}</div>
                 <h3 class="font-semibold text-sm">${order.restaurant}</h3>
                 <div class="text-sm text-gray-600">${order.timestamp} • Total: $${order.subtotal.toFixed(2)}</div>
                 `;
-                    card.onclick = () => showOrderDetails(order.id);
-                    list.appendChild(card);
-                });
-            }
+                card.onclick = () => showOrderDetails(order.id);
+                list.appendChild(card);
+            });
+        }
 
-            function hideOrdersView() {
-                const overlay = document.getElementById('ordersViewOverlay');
-                const view = document.getElementById('ordersView');
+        function hideOrdersView() {
+            const overlay = document.getElementById('ordersViewOverlay');
+            const view = document.getElementById('ordersView');
 
-                overlay.classList.add('hidden');
-                view.classList.add('translate-y-full');
-                view.classList.remove('translate-y-0');
-            }
+            overlay.classList.add('hidden');
+            view.classList.add('translate-y-full');
+            view.classList.remove('translate-y-0');
+        }
 
-            function returnToMenu() {
-                hideOrdersView();
-                showHamburgerMenu(); // TODO REMINDER TO MAKE SURE this defined in menu system
-            }
+        function returnToMenu() {
+            hideOrdersView();
+            showHamburgerMenu(); // TODO REMINDER TO MAKE SURE this defined in menu system
+        }
 
 
 
-            function showOrderDetails(orderId) {
-                const order = yourOrders.find(o => o.id === orderId);
-                if (!order) return;
+        function showOrderDetails(orderId) {
+            const order = yourOrders.find(o => o.id === orderId);
+            if (!order) return;
 
-                const overlay = document.getElementById('orderDetailsOverlay');
-                const drawer = document.getElementById('orderDetails');
-                const content = document.getElementById('orderDetailsContent');
+            const overlay = document.getElementById('orderDetailsOverlay');
+            const drawer = document.getElementById('orderDetails');
+            const content = document.getElementById('orderDetailsContent');
 
-                overlay.classList.remove('hidden');
-                drawer.classList.remove('translate-y-full');
-                drawer.classList.add('translate-y-0');
+            overlay.classList.remove('hidden');
+            drawer.classList.remove('translate-y-full');
+            drawer.classList.add('translate-y-0');
 
-                content.innerHTML = `
+            content.innerHTML = `
                 <div><strong>Order #${order.id}</strong></div>
                 <div>${order.timestamp}</div>
                 <hr class="my-2" />
@@ -543,51 +630,51 @@
                 <span>Subtotal:</span>
                 <span>$${order.subtotal.toFixed(2)}</span>
                 </div>
-            `;updateOrder()
+            `; updateOrder()
 
-                document.getElementById('orderStatus').textContent = `Status: ${order.status || 'Order Received'}`;
+            document.getElementById('orderStatus').textContent = `Status: ${order.status || 'Order Received'}`;
 
-                // Store current orderId in the overlay
-                overlay.setAttribute('data-order-id', orderId);
+            // Store current orderId in the overlay
+            overlay.setAttribute('data-order-id', orderId);
 
-                // Enable Cancel/Update (only for 60 seconds demo)
-                document.getElementById('cancelBtn').classList.remove('hidden');
-                document.getElementById('updateBtn').classList.remove('hidden');
+            // Enable Cancel/Update (only for 60 seconds demo)
+            document.getElementById('cancelBtn').classList.remove('hidden');
+            document.getElementById('updateBtn').classList.remove('hidden');
 
-                setTimeout(() => {
-                    document.getElementById('cancelBtn').classList.add('hidden');
-                    document.getElementById('updateBtn').classList.add('hidden');
-                }, 60000); // 60 sec demo window
+            setTimeout(() => {
+                document.getElementById('cancelBtn').classList.add('hidden');
+                document.getElementById('updateBtn').classList.add('hidden');
+            }, 60000); // 60 sec demo window
+        }
+
+        function closeOrderDetails() {
+            const overlay = document.getElementById('orderDetailsOverlay');
+            const drawer = document.getElementById('orderDetails');
+
+            drawer.classList.add('translate-y-full');
+            drawer.classList.remove('translate-y-0');
+            overlay.classList.add('hidden');
+        }
+
+        function cancelOrder() {
+            const id = parseInt(document.getElementById('orderDetailsOverlay').getAttribute('data-order-id'));
+            const order = yourOrders.find(o => o.id === id);
+            if (order) {
+                order.status = "Canceled";
+                alert(`Order #${id} has been canceled.`);
+                closeOrderDetails();
             }
+        }
 
-            function closeOrderDetails() {
-                const overlay = document.getElementById('orderDetailsOverlay');
-                const drawer = document.getElementById('orderDetails');
-
-                drawer.classList.add('translate-y-full');
-                  drawer.classList.remove('translate-y-0');
-                overlay.classList.add('hidden');
+        function updateOrder() {
+            const id = parseInt(document.getElementById('orderDetailsOverlay').getAttribute('data-order-id'));
+            const order = yourOrders.find(o => o.id === id);
+            if (order) {
+                order.status = "Updated (pending)";
+                alert(`Order #${id} is being updated.`);
+                closeOrderDetails();
             }
-
-            function cancelOrder() {
-                const id = parseInt(document.getElementById('orderDetailsOverlay').getAttribute('data-order-id'));
-                const order = yourOrders.find(o => o.id === id);
-                if (order) {
-                    order.status = "Canceled";
-                    alert(`Order #${id} has been canceled.`);
-                    closeOrderDetails();
-                }
-            }
-
-            function updateOrder() {
-                const id = parseInt(document.getElementById('orderDetailsOverlay').getAttribute('data-order-id'));
-                const order = yourOrders.find(o => o.id === id);
-                if (order) {
-                    order.status = "Updated (pending)";
-                    alert(`Order #${id} is being updated.`);
-                    closeOrderDetails();
-                }
-            }
+        }
 
 
 
@@ -596,6 +683,7 @@
 
 
     <script src="scripts/navigation-control.js"></script>
+
 </body>
 
 </html>
