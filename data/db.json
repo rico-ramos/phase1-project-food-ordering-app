@@ -81,6 +81,20 @@
       ],
       "subtotal": 26.849999999999998,
       "timestamp": "7/25/2025, 1:18:47 AM",
+      "restaurant": "Tacos Rico",
+      "status": "Updated"
+    },
+    {
+      "id": "QB-5451",
+      "items": [
+        {
+          "name": "Chicken Enchiladas",
+          "qty": 3,
+          "price": 10.5
+        }
+      ],
+      "subtotal": 31.5,
+      "timestamp": "7/25/2025, 2:38:08 AM",
       "restaurant": "Tacos Rico"
     }
   ],
