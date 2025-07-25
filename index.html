@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickBite Redirect</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Redirecting...</p>
+
+    <script>
+        // Try to get user from session or localStorage
+        const userData = sessionStorage.getItem("user") || localStorage.getItem("user");
+        let redirectUrl = "login.html"; // default fallback
+
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                if (user.role === "admin" || user.role === "user") {
+                    redirectUrl = "place-order.html"; // or customize based on role
+                }
+            } catch (e) {
+                console.warn("Invalid user data found:", e);
+            }
+        }
+
+        window.location.href = redirectUrl;
+    </script>
+</body>
+
+</html>
