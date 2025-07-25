@@ -87,7 +87,7 @@ function loadRestaurantMenu(restaurantId) {
       card.className = 'relative w-28 md:w-32 lg:w-36 text-center flex-shrink-0';
       card.innerHTML = `
           <div id="badge-${item.id}" class="absolute top-0 left-0 bg-black text-white text-xs px-2 py-0.5 rounded-full z-10 hidden">1</div>
-          <img src="${item.img}" class="mx-auto rounded-full w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 border-2 border-transparent cursor-pointer transition"
+          <img src="${item.img}" class="mx-auto rounded-full w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 border-4 border-transparent cursor-pointer transition"
                onclick="openModal(${item.id})" id="img-${item.id}" />
           <button onclick="addToCart(${item.id}, this)"
                   class="mt-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto transition-transform">+</button>
