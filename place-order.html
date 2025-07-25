@@ -16,7 +16,7 @@
     <script> function returnToRestaurantSelector() {
             window.location.href = './place-order.html'; // advance to place-order page
         }</script>
-          <!-- <script src="./scripts/nav-archive.js"></script> -->
+    <!-- <script src="./scripts/nav-archive.js"></script> -->
 
 
     <!-- Restaurant Selector -->
@@ -158,7 +158,7 @@
         </div>
 
         <div id="cartDrawer"
-            class="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg transform translate-y-full transition-transform duration-300 z-50">
+            class="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-white rounded-t-2xl shadow-lg translate-y-full transition-transform duration-300 z-50 w-full max-w-md sm:max-w-lg md:max-w-xl">
             <div class="p-4 flex justify-between items-center border-b">
                 <h3 class="text-lg font-semibold">Your Order</h3>
                 <button onclick="closeCartDrawer()" class="text-gray-500 text-xl">✕</button>
@@ -366,7 +366,7 @@
     <script src="scripts/restaurant-controller.js"></script>
     <script src="scripts/cart-management.js"></script>
     <script src="./scripts/profile-logout.js"></script>
-  
+
 
 
 
@@ -490,14 +490,27 @@
 
             const timestamp = new Date().toLocaleString();
 
-            // Save order to history
-            yourOrders.push({
-                id: orderNum,
-                items,
-                subtotal,
-                timestamp,
-                restaurant: currentRestaurant?.name || 'Unknown'
-            });
+            // Save order to db.json via JSON Server
+            fetch('http://localhost:3000/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: orderNum,
+                    items,
+                    subtotal,
+                    timestamp,
+                    restaurant: currentRestaurant?.name || 'Unknown'
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Order successfully saved to JSON Server:', data);
+                })
+                .catch(error => {
+                    console.error('Failed to save order:', error);
+                });
 
             console.log('Order saved:', yourOrders);
 
@@ -551,8 +564,11 @@
                 document.getElementById('checkoutView').classList.add('hidden');
                 showThankYouScreen();
 
+
+
             });
-            showRestaurantSelector();
+
+            fetchRestaurants();
         });
 
 
@@ -569,23 +585,33 @@
             // Clear previous
             list.innerHTML = '';
 
-            if (yourOrders.length === 0) {
-                list.innerHTML = `<p class="text-center text-gray-500">You have no past orders.</p>`;
-                return;
-            }
+            // 🚀 Fetch orders from JSON Server
+            fetch('http://localhost:3000/orders')
+                .then(res => res.json())
+                .then(orders => {
+                    if (orders.length === 0) {
+                        list.innerHTML = `<p class="text-center text-gray-500">You have no past orders.</p>`;
+                        return;
+                    }
 
-            yourOrders.forEach(order => {
-                const card = document.createElement('div');
-                card.className = 'bg-red-50 p-3 rounded-md shadow cursor-pointer hover:bg-red-100 transition';
-                card.innerHTML = `
-                <div class="font-semibold">Order #${order.id}</div>
-                <h3 class="font-semibold text-sm">${order.restaurant}</h3>
-                <div class="text-sm text-gray-600">${order.timestamp} • Total: $${order.subtotal.toFixed(2)}</div>
+                    orders.forEach(order => {
+                        const card = document.createElement('div');
+                        card.className = 'bg-red-50 p-3 rounded-md shadow cursor-pointer hover:bg-red-100 transition';
+                        card.innerHTML = `
+                    <div class="font-semibold">Order #${order.id}</div>
+                    <h3 class="font-semibold text-sm">${order.restaurant}</h3>
+                    <div class="text-sm text-gray-600">${order.timestamp} • Total: $${order.subtotal.toFixed(2)}</div>
                 `;
-                card.onclick = () => showOrderDetails(order.id);
-                list.appendChild(card);
-            });
+                        card.onclick = () => showOrderDetails(order.id); // you may need to adjust this
+                        list.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    console.error('Failed to load orders:', err);
+                    list.innerHTML = `<p class="text-center text-red-500">Failed to load orders.</p>`;
+                });
         }
+
 
         function hideOrdersView() {
             const overlay = document.getElementById('ordersViewOverlay');
