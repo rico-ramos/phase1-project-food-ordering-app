@@ -48,15 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function showError(msg) {
-  const errorElement = document.getElementById("errorMessage");
-  if (errorElement) {
-    errorElement.textContent = msg;
-    // Optional: Clear after a delay
-    setTimeout(() => {
-      errorElement.textContent = '';
-    }, 5000); // Clear after 5 seconds
-  } else {
-    alert(msg); // Fallback if the element isn't found
+    const errorElement = document.getElementById("errorMessage");
+    if (errorElement) {
+      errorElement.textContent = msg;
+      // Optional: Clear after a delay
+      setTimeout(() => {
+        errorElement.textContent = '';
+      }, 5000); // Clear after 5 seconds
+    } else {
+      alert(msg); // Fallback if the element isn't found
+    }
   }
-}
 });

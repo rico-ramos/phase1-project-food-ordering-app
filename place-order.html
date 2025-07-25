@@ -366,15 +366,22 @@
     <script src="scripts/restaurant-controller.js"></script>
     <script src="scripts/cart-management.js"></script>
     <script src="./scripts/profile-logout.js"></script>
+    <script src="./scripts/order-manager.js"></script>
 
 
 
 
     <script>
-        const yourOrders = [];
+        let yourOrders = [];
         const userRole = localStorage.getItem("role");
         const isAdmin = userRole === "admin";
 
+        const stored = localStorage.getItem("user") || sessionStorage.getItem("user");
+
+        if (stored) {
+            const user = JSON.parse(stored);
+            console.log("Logged in as:", user.email, user.role);
+        }
 
 
         function toggleCategory(id) {
@@ -589,6 +596,7 @@
             fetch('http://localhost:3000/orders')
                 .then(res => res.json())
                 .then(orders => {
+                    yourOrders = orders; // ✅ Keep the orders in 'local' memory
                     if (orders.length === 0) {
                         list.innerHTML = `<p class="text-center text-gray-500">You have no past orders.</p>`;
                         return;
@@ -602,7 +610,9 @@
                     <h3 class="font-semibold text-sm">${order.restaurant}</h3>
                     <div class="text-sm text-gray-600">${order.timestamp} • Total: $${order.subtotal.toFixed(2)}</div>
                 `;
-                        card.onclick = () => showOrderDetails(order.id); // you may need to adjust this
+
+                        card.onclick = () => showOrderDetails(order);
+                        console.log(order);
                         list.appendChild(card);
                     });
                 })
@@ -629,8 +639,7 @@
 
 
 
-        function showOrderDetails(orderId) {
-            const order = yourOrders.find(o => o.id === orderId);
+        function showOrderDetails(order) {
             if (!order) return;
 
             const overlay = document.getElementById('orderDetailsOverlay');
@@ -645,23 +654,37 @@
                 <div><strong>Order #${order.id}</strong></div>
                 <div>${order.timestamp}</div>
                 <hr class="my-2" />
-                ${order.items.map(item => `
-                <div class="flex justify-between">
-                    <span>${item.name} × ${item.qty}</span>
-                    <span>$${(item.price * item.qty).toFixed(2)}</span>
-                </div>
+                ${order.items.map((item, index) => `
+                    <div class="flex justify-between items-center gap-2 mb-2">
+                    <span class="flex-1">${item.name}</span>
+                    <input type="number"
+                            class="w-16 border border-gray-300 rounded px-2 py-1 text-sm text-center"
+                            min="1"
+                            value="${item.qty}"
+                            data-item-index="${index}" />
+                    <span class="w-20 text-right">$${(item.price * item.qty).toFixed(2)}</span>
+                    </div>
                 `).join('')}
                 <hr class="my-2" />
                 <div class="flex justify-between font-semibold">
-                <span>Subtotal:</span>
-                <span>$${order.subtotal.toFixed(2)}</span>
+                    <span>Subtotal:</span>
+                    <span id="updatedSubtotal">$${order.subtotal.toFixed(2)}</span>
                 </div>
-            `; updateOrder()
+                `;
+
+
+            // After setting content.innerHTML ...
+            const quantityInputs = content.querySelectorAll('input[type="number"]');
+            quantityInputs.forEach(input => {
+                input.addEventListener('input', updateLiveSubtotal);
+            });
+
+
 
             document.getElementById('orderStatus').textContent = `Status: ${order.status || 'Order Received'}`;
 
             // Store current orderId in the overlay
-            overlay.setAttribute('data-order-id', orderId);
+            overlay.setAttribute('data-order-id', order.id);
 
             // Enable Cancel/Update (only for 60 seconds demo)
             document.getElementById('cancelBtn').classList.remove('hidden');
@@ -673,34 +696,27 @@
             }, 60000); // 60 sec demo window
         }
 
+
+
+
         function closeOrderDetails() {
             const overlay = document.getElementById('orderDetailsOverlay');
             const drawer = document.getElementById('orderDetails');
+            const content = document.getElementById('orderDetailsContent');
 
-            drawer.classList.add('translate-y-full');
+            // Slide drawer down and hide overlay
             drawer.classList.remove('translate-y-0');
+            drawer.classList.add('translate-y-full');
             overlay.classList.add('hidden');
+
+            // Clear content (optional)
+            content.innerHTML = '';
+
+            // Also hide Cancel/Update buttons in case they are still visible
+            document.getElementById('cancelBtn')?.classList.add('hidden');
+            document.getElementById('updateBtn')?.classList.add('hidden');
         }
 
-        function cancelOrder() {
-            const id = parseInt(document.getElementById('orderDetailsOverlay').getAttribute('data-order-id'));
-            const order = yourOrders.find(o => o.id === id);
-            if (order) {
-                order.status = "Canceled";
-                alert(`Order #${id} has been canceled.`);
-                closeOrderDetails();
-            }
-        }
-
-        function updateOrder() {
-            const id = parseInt(document.getElementById('orderDetailsOverlay').getAttribute('data-order-id'));
-            const order = yourOrders.find(o => o.id === id);
-            if (order) {
-                order.status = "Updated (pending)";
-                alert(`Order #${id} is being updated.`);
-                closeOrderDetails();
-            }
-        }
 
 
 

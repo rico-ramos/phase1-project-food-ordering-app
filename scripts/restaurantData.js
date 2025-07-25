@@ -11,3 +11,4 @@ async function fetchRestaurants() {
 }
 
 
+fetchRestaurants();

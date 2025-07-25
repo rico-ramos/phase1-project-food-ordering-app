@@ -1,121 +1,32 @@
 {
   "orders": [
     {
-      "id": "QB-1439",
-      "items": [
-        {
-          "name": "Flan",
-          "qty": 4,
-          "price": 4.25
-        }
-      ],
-      "subtotal": 17,
-      "timestamp": "7/24/2025, 10:49:41 PM",
-      "restaurant": "Tacos Rico"
-    },
-    {
-      "id": "QB-6245",
-      "items": [
-        {
-          "name": "Grilled Tofu Bowl",
-          "qty": 3,
-          "price": 9
-        }
-      ],
-      "subtotal": 27,
-      "timestamp": "7/24/2025, 10:50:01 PM",
-      "restaurant": "Green Garden"
-    },
-    {
       "id": "QB-5675",
       "items": [
         {
           "name": "Grilled Tofu Bowl",
-          "qty": 4,
+          "qty": 1,
           "price": 9
         }
       ],
-      "subtotal": 36,
+      "subtotal": 9,
       "timestamp": "7/24/2025, 10:52:03 PM",
-      "restaurant": "Green Garden"
+      "restaurant": "Green Garden",
+      "status": "Updated"
     },
     {
       "id": "QB-6130",
       "items": [
         {
           "name": "Fruit Parfait",
-          "qty": 4,
+          "qty": 3,
           "price": 4.25
         }
       ],
-      "subtotal": 17,
+      "subtotal": 12.75,
       "timestamp": "7/24/2025, 10:52:28 PM",
-      "restaurant": "Green Garden"
-    },
-    {
-      "id": "QB-1266",
-      "items": [
-        {
-          "name": "Root Beer Float",
-          "qty": 3,
-          "price": 2.95
-        }
-      ],
-      "subtotal": 8.850000000000001,
-      "timestamp": "7/24/2025, 10:54:06 PM",
-      "restaurant": "Burger Bay"
-    },
-    {
-      "id": "QB-5469",
-      "items": [
-        {
-          "name": "Grilled Tofu Bowl",
-          "qty": 3,
-          "price": 9
-        }
-      ],
-      "subtotal": 27,
-      "timestamp": "7/24/2025, 11:02:53 PM",
-      "restaurant": "Green Garden"
-    },
-    {
-      "id": "QB-7100",
-      "items": [
-        {
-          "name": "Sesame Balls",
-          "qty": 4,
-          "price": 3.25
-        }
-      ],
-      "subtotal": 13,
-      "timestamp": "7/24/2025, 11:03:11 PM",
-      "restaurant": "Dragon Bowl"
-    },
-    {
-      "id": "QB-9713",
-      "items": [
-        {
-          "name": "Vegan Brownie",
-          "qty": 3,
-          "price": 3.75
-        }
-      ],
-      "subtotal": 11.25,
-      "timestamp": "7/24/2025, 11:12:12 PM",
-      "restaurant": "Green Garden"
-    },
-    {
-      "id": "QB-9866",
-      "items": [
-        {
-          "name": "Sesame Balls",
-          "qty": 2,
-          "price": 3.25
-        }
-      ],
-      "subtotal": 6.5,
-      "timestamp": "7/24/2025, 11:15:20 PM",
-      "restaurant": "Dragon Bowl"
+      "restaurant": "Green Garden",
+      "status": "Updated"
     },
     {
       "id": "QB-6015",
@@ -128,20 +39,49 @@
       ],
       "subtotal": 12.75,
       "timestamp": "7/24/2025, 11:15:51 PM",
-      "restaurant": "Green Garden"
+      "restaurant": "Green Garden",
+      "status": "Updated"
     },
     {
       "id": "QB-2116",
       "items": [
         {
           "name": "Sesame Balls",
-          "qty": 3,
+          "qty": 5,
           "price": 3.25
         }
       ],
-      "subtotal": 9.75,
+      "subtotal": 16.25,
       "timestamp": "7/24/2025, 11:17:45 PM",
-      "restaurant": "Dragon Bowl"
+      "restaurant": "Dragon Bowl",
+      "status": "Updated"
+    },
+    {
+      "id": "QB-7167",
+      "items": [
+        {
+          "name": "Fruit Parfait",
+          "qty": 2,
+          "price": 4.25
+        }
+      ],
+      "subtotal": 8.5,
+      "timestamp": "7/25/2025, 12:10:04 AM",
+      "restaurant": "Green Garden",
+      "status": "Updated"
+    },
+    {
+      "id": "QB-9065",
+      "items": [
+        {
+          "name": "Burrito Bowl",
+          "qty": 3,
+          "price": 8.95
+        }
+      ],
+      "subtotal": 26.849999999999998,
+      "timestamp": "7/25/2025, 1:18:47 AM",
+      "restaurant": "Tacos Rico"
     }
   ],
   "restaurants": [
